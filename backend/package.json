@@ -1,0 +1,32 @@
+{
+  "name": "avaruus-backend",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch --env-file=.env --import tsx ./src/server.ts",
+    "start": "node --env-file=.env --import tsx ./src/server.ts",
+    "typecheck": "tsc --noEmit",
+    "docker:dev:up": "docker compose -f src/docker/development/compose.yml up -d",
+    "docker:dev:down": "docker compose -f src/docker/development/compose.yml down"
+  },
+  "dependencies": {
+    "@fastify/cors": "^11.1.0",
+    "@fastify/multipart": "^10.1.2",
+    "bcrypt": "^6.0.0",
+    "fastify": "^5.6.1",
+    "graphql": "^16.11.0",
+    "jsonwebtoken": "^9.0.2",
+    "mercurius": "^16.5.0",
+    "mongoose": "^8.19.1",
+    "sharp": "^0.35.5",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^24.7.2",
+    "tsx": "^4.22.3",
+    "typescript": "^5.9.3"
+  }
+}
