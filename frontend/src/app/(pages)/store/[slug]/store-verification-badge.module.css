@@ -1,0 +1,6 @@
+.badge { flex: 0 0 auto; width: .9em; height: .9em; }
+.badge[data-variant="black"] { color: #111; }
+.badge[data-variant="blue"] { color: #1d9bf0; }
+.badge[data-variant="gold"] { color: #FFD700; }
+.badge[data-variant="bronze"] { color: #a65e2e; }
+.badge[data-variant="silver"] { color: #8b929a; }

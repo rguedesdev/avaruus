@@ -1,0 +1,80 @@
+@import "tailwindcss";
+
+:root {
+  --color-background: #f7f7f5;
+  --color-surface: #ffffff;
+  --color-surface-muted: #efefec;
+  --color-surface-strong: #e6e6e1;
+  --color-charcoal: #242424;
+  --color-charcoal-deep: #171717;
+  --color-charcoal-soft: #3f3f3d;
+  --color-text: #262626;
+  --color-text-muted: #747470;
+  --color-text-subtle: #999995;
+  --color-border: #deded9;
+  --color-border-light: #e9e9e5;
+  --color-accent: #4f8cff;
+  --color-accent-hover: #3f73d4;
+  --color-accent-soft: #eaf1ff;
+  --color-accent-blue: var(--color-accent);
+  --color-accent-blue-soft: var(--color-accent-soft);
+  --color-success: #317a4b;
+  --color-success-soft: #e8f3ec;
+  --color-rating: #d99b18;
+  --color-white: #ffffff;
+  --color-white-86: rgba(255, 255, 255, .86);
+  --color-white-78: rgba(255, 255, 255, .78);
+  --color-white-72: rgba(255, 255, 255, .72);
+  --color-white-60: rgba(255, 255, 255, .60);
+  --color-white-35: rgba(255, 255, 255, .35);
+  --color-white-15: rgba(255, 255, 255, .15);
+  --color-white-09: rgba(255, 255, 255, .09);
+  --color-white-08: rgba(255, 255, 255, .08);
+  --color-charcoal-96: rgba(23, 23, 23, .96);
+  --color-charcoal-92: rgba(23, 23, 23, .92);
+  --color-charcoal-78: rgba(23, 23, 23, .78);
+  --color-charcoal-72: rgba(23, 23, 23, .72);
+  --color-charcoal-12: rgba(23, 23, 23, .12);
+  --color-charcoal-10: rgba(23, 23, 23, .10);
+  --color-charcoal-08: rgba(23, 23, 23, .08);
+  --color-charcoal-04: rgba(23, 23, 23, .04);
+  --color-header: rgba(247, 247, 245, .96);
+  --color-focus-ring: rgba(36, 36, 36, .12);
+  --color-category-cool: #e5e7e8;
+  --color-category-cool-text: #4c5154;
+  --color-category-warm: #eee4de;
+  --color-category-warm-text: #78584a;
+  --color-category-stone: #e7e5e0;
+  --color-category-stone-text: #585650;
+  --color-category-sand: #eee7d9;
+  --color-category-sand-text: #756545;
+  --color-category-rose: #eee2e1;
+  --color-category-rose-text: #795b59;
+  --color-category-taupe: #e8e3e1;
+  --color-category-taupe-text: #685b57;
+  --color-product-sand: #eee8df;
+  --color-product-sand-text: #665f57;
+  --color-product-terracotta: #ead8ce;
+  --color-product-terracotta-text: #865844;
+  --color-product-stone: #e4e3df;
+  --color-product-stone-text: #575651;
+  --color-product-taupe: #e7e2df;
+  --color-product-taupe-text: #655b57;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html { scroll-behavior: smooth; }
+html, body { min-height: 100vh; }
+body { background: #fff; color: var(--color-text); display: flex; flex-direction: column; font-family: var(--font-geist-sans), Arial, sans-serif; }
+main { min-height: 100vh; }
+body > main { flex: 1 0 auto; }
+a { color: inherit; text-decoration: none; }
+button, input { font: inherit; }
+button, input[type="button"], input[type="submit"], input[type="reset"] { transition: all 0.2s ease !important; }
+ul { list-style: none; }
+::selection { background: var(--color-accent-soft); color: var(--color-charcoal); }

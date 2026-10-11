@@ -1,0 +1,22 @@
+.socialBar { margin-top: 20px; }
+.socialRow { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 24px; }
+.metrics { display: flex; flex-wrap: wrap; gap: 22px; }
+.metric { min-width: 0; color: var(--color-text-muted); display: flex; align-items: center; gap: 9px; }
+.metric + .metric { padding-left: 22px; border-left: 1px solid var(--color-border-light); }
+.metric > svg { flex: 0 0 auto; color: var(--color-charcoal); font-size: 1.3rem; }
+.metric > .productIcon { font-size: calc(1.3rem - 1px); }
+.metric > span { display: flex; flex-direction: column; gap: 2px; }
+.metric strong { color: var(--color-charcoal); font-size: .88rem; line-height: 1.1; }
+.metric small { color: var(--color-text-muted); font-size: .66rem; }
+.followButton { box-sizing: border-box; width: 142px; min-width: 142px; height: 40px; padding: 0 15px; border: 1px solid var(--color-charcoal); border-radius: 8px; background: var(--color-charcoal); color: var(--color-white); display: inline-flex; align-items: center; justify-content: center; gap: 7px; font-size: .9rem; font-weight: 700; cursor: pointer; transition: background-color .16s ease, color .16s ease; }
+.followButton:hover, .followButton[aria-pressed="true"] { background: var(--color-surface); color: var(--color-charcoal); }
+.followButton svg { font-size: calc(1.1rem - 2px); }
+
+@media (max-width: 600px) {
+  .socialBar { width: 100%; }
+  .socialRow { align-items: stretch; flex-direction: column; }
+  .metrics { justify-content: space-between; gap: 14px; }
+  .metric { gap: 6px; }
+  .metric + .metric { padding-left: 14px; }
+  .followButton { width: 100%; }
+}

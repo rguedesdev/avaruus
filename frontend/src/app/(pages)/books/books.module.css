@@ -1,0 +1,22 @@
+.page { width: min(100% - 40px, 1440px); min-height: 100vh; margin: 0 auto; padding: 58px 0 90px; }
+.header { max-width: 640px; }
+.header > span { color: var(--color-accent); font-size: .72rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.header h1 { margin-top: 9px; color: var(--color-charcoal); font-size: clamp(2rem, 4vw, 3.2rem); letter-spacing: -.05em; }
+.header p { margin-top: 12px; color: var(--color-text-muted); line-height: 1.65; }
+.grid { margin-top: 38px; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+.card { position: relative; top: 0; overflow: hidden; border: 1px solid var(--color-border-light); border-radius: 20px; background: var(--color-surface); transition: top .11s steps(2, end), border-color .16s ease; }
+.card:hover { top: -2px; border-color: var(--color-charcoal-soft); }
+.cover { height: 330px; padding: 24px; background: var(--color-surface-muted); display: grid; place-items: center; }
+.cover img { width: auto; height: 100%; border-radius: 4px; box-shadow: 0 9px 22px var(--color-charcoal-12); }
+.cardBody { padding: 20px; }
+.cardBody small { color: var(--color-accent); font-size: .67rem; font-weight: 800; text-transform: uppercase; }
+.cardBody h2 { margin-top: 7px; color: var(--color-charcoal); font-size: 1.22rem; }
+.cardBody p { margin-top: 4px; color: var(--color-text-muted); font-size: .8rem; }
+.cardBody > span { margin-top: 12px; color: var(--color-text-muted); display: flex; align-items: center; gap: 4px; font-size: .7rem; }
+.cardBody > span svg { color: var(--color-rating); fill: currentColor; }
+.cardBody > strong { margin-top: 15px; color: var(--color-charcoal); display: block; font-size: .9rem; }
+.cardBody > b { margin-top: 17px; color: var(--color-accent); display: inline-flex; align-items: center; gap: 6px; font-size: .75rem; }
+
+@media (max-width: 600px) {
+  .page { width: min(100% - 24px, 1440px); padding-top: 38px; }
+}

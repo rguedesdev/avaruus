@@ -1,0 +1,18 @@
+.page { width: min(100% - 40px, 1440px); min-height: 100vh; margin: 0 auto; padding: 28px 0 72px; }
+.storeHeader { min-height: 190px; padding: 30px; border: 1px solid var(--color-border-light); border-radius: 16px; background: var(--color-surface); display: flex; align-items: center; gap: 24px; }
+.avatar { width: 112px; height: 112px; flex: 0 0 auto; border: 1px solid var(--color-border-light); border-radius: 50%; background-color: var(--color-surface-muted); background-position: center; background-size: cover; }
+.storeIdentity { min-width: 0; flex: 1; }
+.eyebrow { color: var(--color-text-muted); font-size: .72rem; font-weight: 750; letter-spacing: .08em; text-transform: uppercase; }
+.storeIdentity h1 { margin-bottom: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: clamp(1.2rem, 2.6vw, 1.6rem); letter-spacing: -.035em; }
+.storeIdentity p { max-width: 720px; margin-top: 6px; color: var(--color-text-muted); font-size: .88rem; line-height: 1.6; white-space: pre-wrap; }
+.vacationNotice { margin-top: 16px; padding: 13px 16px; border: 1px solid var(--color-border-light); border-radius: 10px; background: var(--color-surface-muted); color: var(--color-charcoal); font-size: .8rem; }
+.catalog { margin-top: 34px; }
+.emptyState { min-height: 210px; padding: 24px; border: 1px solid var(--color-border-light); border-radius: 13px; background: var(--color-surface); }
+.emptyState h2 { align-self: stretch; margin: 0 0 20px; color: var(--color-charcoal); font-size: 1.2rem; text-align: left; }
+.catalogGrid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); justify-items: center; gap: 18px; }
+.catalogGrid > * { width: 100%; max-width: 260px; }
+@media (max-width: 1200px) { .catalogGrid { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+@media (max-width: 900px) { .catalogGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .catalogGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; } }
+@media (max-width: 420px) { .catalogGrid { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 600px) { .page { width: min(100% - 24px, 1440px); padding-top: 14px; }.storeHeader { padding: 20px; align-items: flex-start; flex-direction: column; gap: 16px; }.avatar { width: 82px; height: 82px; }.storeIdentity { width: 100%; flex: none; } }

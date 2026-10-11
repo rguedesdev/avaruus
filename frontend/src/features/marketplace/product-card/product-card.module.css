@@ -1,0 +1,29 @@
+.productCard { position: relative; top: 0; min-width: 0; width: 100%; max-width: 260px; overflow: hidden; border: 1px solid var(--color-border-light); border-radius: 18px; background: var(--color-surface); transition: top .11s steps(3, end), border-color .16s ease, box-shadow .16s ease; }
+.productCard:hover { top: -3px; border-color: var(--color-border); box-shadow: 0 14px 34px var(--color-charcoal-08); }
+.productCardLink { display: block; height: 100%; }
+.productVisual { position: relative; width: 100%; height: auto; aspect-ratio: 1 / 1; overflow: hidden; background: var(--color-surface); }
+.productImage { display: block; }
+.productImage.catalog { object-fit: contain; padding: 20px; }
+.productImage.lifestyle { object-fit: cover; }
+.productImage.book { object-fit: contain; padding: 0; }
+.favoriteButton { position: absolute; top: 6px; right: 6px; z-index: 1; width: 38px; height: 38px; padding: 0; border: 0; border-radius: 0; background: transparent; color: var(--color-charcoal); display: grid; place-items: center; font-size: calc(1.25rem + 4px); cursor: pointer; opacity: 0; transition: opacity .15s ease; }
+.productCard:hover .favoriteButton, .productCard:focus-within .favoriteButton, .favoriteButton[aria-pressed="true"] { opacity: 1; }
+.favoriteButton:hover { background: transparent; }
+.favoriteButton[aria-pressed="true"] { border: 0; background: transparent; color: var(--color-charcoal); }
+.favoriteButton[aria-pressed="true"]:hover { background: transparent; }
+.productInfo { padding: 20px; display: grid; grid-template-rows: 2.76rem 1rem auto 1rem; row-gap: 7px; align-content: start; }
+.productInfo h3 { margin: 0; color: var(--color-text); font-size: 1rem; line-height: 1.3; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
+.productSocialProof { min-width: 0; color: var(--color-text-muted); display: flex; align-items: center; gap: 8px; font-size: .72rem; line-height: 1rem; white-space: nowrap; }
+.productInfo h3 + .productSocialProof { margin-top: -6px; margin-bottom: 6px; }
+.productSocialProof span { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.productSocialProof span:first-child { color: var(--color-charcoal); display: inline-flex; align-items: center; gap: 4px; line-height: 1rem; }
+.productSocialProof svg { color: var(--color-accent); font-size: calc(.78rem - 1px); }
+.productSocialProof i { width: 1px; height: 12px; flex: 0 0 auto; background: var(--color-border); }
+.productInfo strong { margin: 0; color: var(--color-charcoal); font-size: 1rem; line-height: 1.4rem; }
+.priceRow { min-width: 0; display: flex; flex-direction: column; align-items: flex-start; }
+.priceRow del { color: var(--color-text-muted); font-size: .72rem; line-height: .85rem; }
+.currentPriceRow { min-width: 0; display: flex; align-items: center; gap: 8px; }
+.discountLabel { height: 16px; box-sizing: border-box; padding: 0 6px; border-radius: 4px; background: var(--color-accent); color: var(--color-white); display: inline-flex; align-items: center; justify-content: center; font-size: .62rem; font-weight: 800; line-height: 1; text-align: center; white-space: nowrap; }
+.discountLabel > span { position: relative; top: 1px; }
+.priceRow + small { margin-top: -4px; }
+.productInfo small { overflow: hidden; margin: 0; color: var(--color-text-muted); line-height: 1rem; text-overflow: ellipsis; white-space: nowrap; }

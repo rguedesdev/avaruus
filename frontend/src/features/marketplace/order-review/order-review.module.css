@@ -1,0 +1,73 @@
+.page, .successPage { width: min(100% - 40px, 1440px); min-height: 100vh; margin: 0 auto; padding: 26px 0 80px; }
+.breadcrumb { margin-bottom: 24px; color: var(--color-text-muted); display: flex; align-items: center; gap: 8px; font-size: .78rem; }
+.pageHeader { margin-bottom: 30px; }
+.kicker { color: var(--color-accent); font-size: .72rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.pageHeader h1 { margin-top: 7px; color: var(--color-charcoal); font-size: clamp(2rem, 4vw, 2.8rem); letter-spacing: -.05em; }
+.reviewLayout { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(330px, .65fr); gap: 24px; align-items: start; }
+.reviewContent { display: flex; flex-direction: column; gap: 18px; }
+.card, .summary { border: 1px solid var(--color-border-light); border-radius: 20px; background: var(--color-surface); }
+.card { padding: 25px; }
+.cardHeading { padding-bottom: 17px; border-bottom: 1px solid var(--color-border-light); display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.cardHeading > div { display: flex; align-items: center; gap: 8px; }
+.cardHeading small { color: var(--color-text-subtle); font-size: .68rem; }
+.cardHeading h2 { color: var(--color-charcoal); font-size: 1.05rem; }
+.products { display: flex; flex-direction: column; }
+.product { padding: 18px 0; display: grid; grid-template-columns: 82px minmax(0, 1fr) auto; align-items: center; gap: 16px; }
+.product + .product { border-top: 1px solid var(--color-border-light); }
+.productImage { position: relative; width: 82px; height: 82px; overflow: hidden; border: 1px solid var(--color-border-light); border-radius: 11px; }
+.productImage .catalog { object-fit: contain; padding: 5px; }
+.productImage .lifestyle { object-fit: cover; }
+.product > div:nth-child(2) { min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 3px; }
+.product h3 { color: var(--color-charcoal); font-size: .82rem; line-height: 1.35; }
+.product span, .product small { color: var(--color-text-muted); font-size: .65rem; }
+.product > strong { color: var(--color-charcoal); font-size: .8rem; }
+.infoGrid { padding-top: 20px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
+.infoGrid > div { display: flex; align-items: flex-start; gap: 11px; }
+.infoGrid > div + div { padding-left: 22px; border-left: 1px solid var(--color-border-light); }
+.infoGrid svg, .paymentInfo > svg { flex: 0 0 auto; margin-top: 2px; color: var(--color-charcoal-soft); font-size: 1.15rem; }
+.infoGrid p, .paymentInfo p { display: flex; flex-direction: column; gap: 3px; }
+.infoGrid small, .paymentInfo small { color: var(--color-text-muted); font-size: .62rem; }
+.infoGrid strong, .paymentInfo strong { color: var(--color-charcoal); font-size: .77rem; }
+.infoGrid span, .paymentInfo span { color: var(--color-text-muted); font-size: .67rem; }
+.paymentInfo { padding-top: 20px; display: flex; align-items: flex-start; gap: 11px; }
+.paymentInfo > svg { width: 22px; height: 22px; }
+.summary { position: sticky; top: 104px; padding: 26px; }
+.summary > h2 { color: var(--color-charcoal); font-size: 1.2rem; }
+.summary dl { margin-top: 22px; display: flex; flex-direction: column; gap: 13px; }
+.summary dl > div { color: var(--color-text-muted); display: flex; justify-content: space-between; gap: 14px; font-size: .76rem; }
+.summary dd { color: var(--color-charcoal); font-weight: 650; }
+.summary .discount, .summary .discount dd { color: var(--color-success); }
+.summary .total { margin-top: 4px; padding-top: 18px; border-top: 1px solid var(--color-border-light); color: var(--color-charcoal); align-items: center; font-size: .9rem; font-weight: 750; }
+.summary .total dd { font-size: 1.35rem; }
+.summary > button { width: 100%; min-height: 50px; margin-top: 22px; border: 0; border-radius: 11px; background: var(--color-charcoal); color: var(--color-white); font-weight: 800; cursor: pointer; }
+.summary > button:hover { background: var(--color-charcoal-deep); }
+.summary > p { margin-top: 10px; color: var(--color-text-subtle); font-size: .6rem; line-height: 1.45; text-align: center; }
+.security { margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--color-border-light); color: var(--color-text-muted); display: flex; align-items: flex-start; gap: 9px; }
+.security > svg { flex: 0 0 auto; }
+.security span { display: flex; flex-direction: column; gap: 2px; font-size: .62rem; }
+.security strong { color: var(--color-charcoal-soft); font-size: .68rem; }
+.successPage > div:first-child { margin-inline: auto; }
+.successCard { max-width: 620px; min-height: 480px; margin: 42px auto 0; padding: 58px 40px; border: 1px solid var(--color-border-light); border-radius: 24px; background: var(--color-surface); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.successIcon { width: 68px; height: 68px; margin-bottom: 24px; border-radius: 50%; background: var(--color-success-soft); color: var(--color-success); display: grid; place-items: center; font-size: 1.7rem; }
+.successCard h1 { margin-top: 8px; color: var(--color-charcoal); font-size: clamp(2rem, 4vw, 2.8rem); letter-spacing: -.05em; }
+.successCard > p { max-width: 430px; margin-top: 13px; color: var(--color-text-muted); font-size: .84rem; line-height: 1.6; }
+.successCard > div { width: 100%; margin-top: 28px; padding: 17px; border-radius: 13px; background: var(--color-surface-muted); color: var(--color-text-muted); display: flex; align-items: center; justify-content: center; gap: 11px; }
+.successCard > div span { display: flex; flex-direction: column; gap: 2px; font-size: .68rem; text-align: left; }
+.successCard > div strong { color: var(--color-charcoal); font-size: .76rem; }
+.successCard > a { margin-top: 28px; padding: 13px 22px; border-radius: 10px; background: var(--color-charcoal); color: var(--color-white); font-size: .76rem; font-weight: 750; }
+
+@media (max-width: 900px) {
+  .reviewLayout { grid-template-columns: 1fr; }
+  .summary { position: static; }
+}
+
+@media (max-width: 620px) {
+  .page, .successPage { width: min(100% - 24px, 1440px); padding-top: 18px; }
+  .card, .summary { padding: 20px 16px; border-radius: 16px; }
+  .product { grid-template-columns: 68px 1fr; }
+  .productImage { width: 68px; height: 68px; }
+  .product > strong { grid-column: 2; }
+  .infoGrid { grid-template-columns: 1fr; }
+  .infoGrid > div + div { padding: 18px 0 0; border-top: 1px solid var(--color-border-light); border-left: 0; }
+  .successCard { padding: 42px 20px; }
+}
