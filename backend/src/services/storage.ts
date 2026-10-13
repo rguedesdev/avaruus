@@ -1,12 +1,14 @@
 import { mkdir, readFile, unlink, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 import { env } from "../config/env.js";
 
-const storageRoot = path.resolve(env.STORAGE_LOCAL_DIR);
+const backendRoot = fileURLToPath(new URL("../../", import.meta.url));
+const storageRoot = path.resolve(backendRoot, env.STORAGE_LOCAL_DIR);
 
 function safeStorageKey(key: string) {
-  if (!/^[a-zA-Z0-9/_-]+\.webp$/.test(key) || key.includes("..")) {
+  if (!/^[a-zA-Z0-9/_-]+\.(?:webp|mp4|webm)$/.test(key) || key.includes("..")) {
     throw new Error("Chave de armazenamento inválida.");
   }
   return key;

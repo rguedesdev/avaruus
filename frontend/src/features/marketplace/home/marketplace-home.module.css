@@ -16,7 +16,7 @@
 .heroNotes span { display: inline-flex; align-items: center; gap: 7px; }
 .section { padding-top: 64px; scroll-margin-top: 96px; }
 .sectionHeading { margin-bottom: 28px; display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; }
-.sectionHeading h2 { margin-top: 8px; color: var(--color-charcoal); font-size: clamp(1.8rem, 3vw, 2.5rem); letter-spacing: -.04em; }
+.sectionHeading h2 { margin-top: 8px; color: var(--color-charcoal); font-size: clamp(1.5rem, 2.4vw, 2rem); letter-spacing: -.04em; }
 .textLink { padding-bottom: 4px; color: var(--color-charcoal-soft); display: inline-flex; gap: 8px; font-size: .9rem; font-weight: 700; border-bottom: 1px solid var(--color-text-subtle); }
 .categoryGrid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; }
 .categoryCard { position: relative; top: 0; min-width: 0; padding: 18px 16px; border: 1px solid var(--color-border-light); border-radius: 18px; background: var(--color-surface); color: var(--color-text); display: flex; flex-direction: column; gap: 18px; font-size: .88rem; font-weight: 700; transition: top .11s steps(4, end), box-shadow .16s ease; }

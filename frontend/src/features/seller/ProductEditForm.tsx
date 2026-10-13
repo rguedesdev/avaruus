@@ -48,12 +48,15 @@ function initialBookDetails(product: SellerProduct): BookDetails {
   } catch { return empty; }
 }
 
-export function ProductEditForm({ product, onUpdated }: { product: SellerProduct; onUpdated: (product: SellerProduct) => void }) {
+type CatalogEditorInput = { title: string; gtin: string; category: string; description: string; imageIDs: string[]; videoID: string | null; variations: Array<{ title: string; options: string[]; imageIDs: string[] }>; bookDetails: string | null };
+
+export function ProductEditForm({ product, onUpdated, onCatalogSave }: { product: SellerProduct; onUpdated: (product: SellerProduct) => void; onCatalogSave?: (input: CatalogEditorInput) => Promise<void> }) {
   const router = useRouter();
   const [title, setTitle] = useState(product.title);
   const [category, setCategory] = useState(product.category);
   const [gtin, setGtin] = useState(product.gtin);
   const [description, setDescription] = useState(product.description);
+  const [international, setInternational] = useState(product.international ?? false);
   const [price, setPrice] = useState(product.price.toFixed(2).replace(".", ","));
   const [shippingMethod, setShippingMethod] = useState(product.shippingMethod);
   const [book, setBook] = useState(initialBookDetails(product));
@@ -164,7 +167,7 @@ export function ProductEditForm({ product, onUpdated }: { product: SellerProduct
     event.preventDefault();
     setMessage("");
     const numericPrice = parsePrice(price);
-    if (!Number.isFinite(numericPrice) || numericPrice <= 0) { setMessage("Informe um preço válido, por exemplo: 129,90."); return; }
+    if (!onCatalogSave && (!Number.isFinite(numericPrice) || numericPrice <= 0)) { setMessage("Informe um preço válido, por exemplo: 129,90."); return; }
     if (description.trim().length < 120) { setMessage("A descrição precisa ter pelo menos 120 caracteres."); return; }
     if (!images.length || images.some((image) => !image.id || image.uploading)) { setMessage("Adicione pelo menos uma imagem e aguarde o envio de todas as imagens."); return; }
     if (video?.uploading || (video && !video.id)) { setMessage("Aguarde o envio do vídeo."); return; }
@@ -176,11 +179,21 @@ export function ProductEditForm({ product, onUpdated }: { product: SellerProduct
     if (category === "BOOK" && book.collaborators.some((person) => Boolean(person.name.trim()) !== Boolean(person.role))) { setMessage("Informe o nome e a função de cada colaborador."); return; }
     setSaving(true);
     try {
+      if (onCatalogSave) {
+        await onCatalogSave({
+          title, gtin, category, description, imageIDs: images.map((image) => image.id!).filter(Boolean),
+          videoID: video?.id ?? null,
+          variations: variations.map(({ title: variationTitle, options, imageIDs }) => ({ title: variationTitle, options, imageIDs })),
+          bookDetails: category === "BOOK" ? JSON.stringify({ ...book, isbn: "", isbn10: book.isbn10.trim(), isbn13: book.isbn13.trim(), collaborators: book.collaborators.filter((person) => person.name.trim()).map((person) => ({ name: person.name.trim(), role: person.role })) }) : null,
+        });
+        return;
+      }
       const updated = await updateSellerProduct(product.id, {
         title, gtin, category, description, price: numericPrice,
         imageIDs: images.map((image) => image.id!).filter(Boolean), videoID: video?.id ?? null, variations,
         bookDetails: category === "BOOK" ? JSON.stringify({ ...book, isbn: "", isbn10: book.isbn10.trim(), isbn13: book.isbn13.trim(), collaborators: book.collaborators.filter((person) => person.name.trim()).map((person) => ({ name: person.name.trim(), role: person.role })) }) : null,
         shippingMethod,
+        international,
       });
       onUpdated(updated);
       router.push("/seller?view=products");
@@ -188,6 +201,27 @@ export function ProductEditForm({ product, onUpdated }: { product: SellerProduct
       setMessage(error instanceof Error ? error.message : "Não foi possível salvar as alterações.");
     } finally { setSaving(false); }
   }
+
+  if (product.catalogAVSIN) return <form className={styles.productCreateForm} onSubmit={(event) => {
+    event.preventDefault(); setMessage("");
+    const numericPrice = parsePrice(price);
+    if (!Number.isFinite(numericPrice) || numericPrice <= 0) { setMessage("Informe um preço válido, por exemplo: 129,90."); return; }
+    setSaving(true);
+    void updateSellerProduct(product.id, { title: product.title, gtin: product.gtin, category: product.category, description: product.description, price: numericPrice, imageIDs: product.imageIDs, videoID: product.videoID, variations: product.variations, bookDetails: product.bookDetails, shippingMethod, international })
+      .then((updated) => { onUpdated(updated); router.push("/seller?view=products"); })
+      .catch((error) => setMessage(error instanceof Error ? error.message : "Não foi possível salvar as alterações."))
+      .finally(() => setSaving(false));
+  }}>
+    <div className={styles.catalogMatches}><strong>Item de catálogo {product.catalogAVSIN}</strong><p>Os dados do produto são gerenciados pela Avaruus. Aqui você pode alterar apenas as condições do seu anúncio.</p></div>
+    <section className={styles.catalogCoverPreview} aria-label="Foto de capa do item de catálogo">
+      <strong>Foto de capa do catálogo</strong>
+      {product.images[0] ? <img src={product.images[0]} alt={`Foto de capa de ${product.title}`} /> : <span>Este item ainda não tem foto de capa.</span>}
+    </section>
+    <label className={styles.field}><span>Preço do produto (R$) *</span><InputIcon icon={FiDollarSign}><input required type="text" inputMode="decimal" value={price} onChange={(event) => setPrice(event.target.value.replace(/[^\d,.]/g, ""))} /></InputIcon></label>
+    <label className={styles.internationalChoice}><input type="checkbox" checked={international} onChange={(event) => setInternational(event.target.checked)} /><span>Este é um item internacional</span></label>
+    <fieldset className={styles.shippingChoices}><legend>Frete *</legend><label><input type="radio" name="shipping" checked={shippingMethod === "MELHOR_ENVIO"} onChange={() => setShippingMethod("MELHOR_ENVIO")} /> Melhor Envio</label><label><input type="radio" name="shipping" checked={shippingMethod === "SELLER"} onChange={() => setShippingMethod("SELLER")} /> Frete definido pela loja</label></fieldset>
+    {message ? <p role="alert" className={styles.formError}>{message}</p> : null}<button className={styles.addAddress} disabled={saving}>{saving ? "Salvando…" : "Salvar alterações"}</button>
+  </form>;
 
   return <form className={styles.productCreateForm} onSubmit={(event) => void submit(event)}>
     <section className={styles.mediaSection}>
@@ -206,7 +240,7 @@ export function ProductEditForm({ product, onUpdated }: { product: SellerProduct
     <div className={styles.productCreateRow}>
       <label className={styles.field}><span>GTIN/EAN</span><InputIcon icon={AiOutlineBarcode}><input maxLength={14} inputMode="numeric" value={gtin} onChange={(event) => setGtin(event.target.value.replace(/\D/g, ""))} /></InputIcon></label>
       <label className={styles.field}><span>Categoria *</span><InputIcon icon={FiTag}><select required value={category} onChange={(event) => setCategory(event.target.value)}>{categories.map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></InputIcon></label>
-      <label className={styles.field}><span>Preço do produto (R$) *</span><InputIcon icon={FiDollarSign}><input required type="text" inputMode="decimal" value={price} onChange={(event) => setPrice(event.target.value.replace(/[^\d,.]/g, ""))} /></InputIcon></label>
+      {!onCatalogSave ? <label className={styles.field}><span>Preço do produto (R$) *</span><InputIcon icon={FiDollarSign}><input required type="text" inputMode="decimal" value={price} onChange={(event) => setPrice(event.target.value.replace(/[^\d,.]/g, ""))} /></InputIcon></label> : null}
     </div>
     <label className={styles.field}><span>Descrição * ({description.length}/5000; mínimo 120)</span><InputIcon icon={FiFileText} className={styles.textareaWithIcon}><textarea required minLength={120} maxLength={5000} rows={7} value={description} onChange={(event) => setDescription(event.target.value)} /></InputIcon></label>
 
@@ -222,8 +256,9 @@ export function ProductEditForm({ product, onUpdated }: { product: SellerProduct
 
     {category === "BOOK" ? <BookTechnicalForm book={book} onBookChange={(field, value) => setBook((current) => ({ ...current, [field]: value }))} collaborators={book.collaborators.map((person, index) => ({ id: String(index), ...person }))} onCollaboratorsChange={(items) => setBook((current) => ({ ...current, collaborators: items.map((person) => ({ name: person.name, role: person.role })) }))} /> : null}
 
-    <fieldset className={styles.shippingChoices}><legend>Frete *</legend><label><input type="radio" name="shipping" checked={shippingMethod === "MELHOR_ENVIO"} onChange={() => setShippingMethod("MELHOR_ENVIO")} /> Melhor Envio</label><label><input type="radio" name="shipping" checked={shippingMethod === "SELLER"} onChange={() => setShippingMethod("SELLER")} /> Frete definido pela loja</label></fieldset>
+    {!onCatalogSave ? <><label className={styles.internationalChoice}><input type="checkbox" checked={international} onChange={(event) => setInternational(event.target.checked)} /><span>Este é um item internacional</span></label>
+    <fieldset className={styles.shippingChoices}><legend>Frete *</legend><label><input type="radio" name="shipping" checked={shippingMethod === "MELHOR_ENVIO"} onChange={() => setShippingMethod("MELHOR_ENVIO")} /> Melhor Envio</label><label><input type="radio" name="shipping" checked={shippingMethod === "SELLER"} onChange={() => setShippingMethod("SELLER")} /> Frete definido pela loja</label></fieldset></> : null}
     {message ? <p role="alert" className={styles.formError}>{message}</p> : null}
-    <button className={styles.addAddress} disabled={saving}>{saving ? "Salvando…" : "Salvar alterações"}</button>
+    <button className={styles.addAddress} disabled={saving}>{saving ? "Salvando…" : onCatalogSave ? "Salvar item de catálogo" : "Salvar alterações"}</button>
   </form>;
 }

@@ -31,6 +31,7 @@ export type Product = {
   installments: string;
   image: string;
   images?: readonly string[];
+  videoUrl?: string;
   imageStyle: "catalog" | "lifestyle";
   badge: string;
   conditionLabel: string;

@@ -51,7 +51,7 @@ A edição dos dados e da senha acontece pela mutation GraphQL `updateProfile`. 
 1. `POST /uploads/images?purpose=USER_AVATAR`, com o arquivo no campo multipart `file` e o JWT no header `Authorization`.
 2. `updateProfile(data: { avatarImageID: "..." })` associa a mídia pronta ao usuário.
 
-São aceitos JPG, PNG e WebP de até 5 MB. O conteúdo real é verificado com Sharp, a orientação é normalizada, a imagem é recortada para avatar de até 720×720 e o arquivo persistido é sempre WebP. Em desenvolvimento, os arquivos ficam em `.uploads`; uploads não associados expiram automaticamente após 24 horas.
+São aceitos JPG, PNG e WebP de até 5 MB. O conteúdo real é verificado com Sharp, a orientação é normalizada, a imagem é recortada para avatar de até 720×720 e o arquivo persistido é sempre WebP. Em desenvolvimento, os arquivos ficam em `src/uploads`; uploads não associados expiram automaticamente após 24 horas.
 
 ## Verificação
 

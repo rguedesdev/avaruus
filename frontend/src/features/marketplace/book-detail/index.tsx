@@ -218,7 +218,7 @@ export function BookDetails({ book, relatedItems }: BookDetailsProps) {
           <div className={styles.bookSummary} ref={summaryRef}>
           <div className={styles.topline}>
             <span>Novo</span><i aria-hidden="true" /><span>{book.soldLabel}</span>
-            <FavoriteButton slug={book.slug} label={book.title} />
+            <FavoriteButton className={styles.topFavoriteButton} slug={book.slug} label={book.title} />
           </div>
           <h1 id="book-title">{book.title}</h1>
           <p className={styles.author}>
@@ -289,9 +289,10 @@ export function BookDetails({ book, relatedItems }: BookDetailsProps) {
           </div>
           <ProductInfoCard eyebrow="Sobre o livro" title="Uma escolha pode mudar tudo" className={styles.bookAbout}>
             <p>{book.description}</p>
-            <button className={styles.sampleButton} type="button" onClick={openSampleModal}>
-              <HiOutlineBookOpen aria-hidden="true" /> Ler amostra
-            </button>
+            {["ebook", "audiobook"].includes(selectedFormat.id) ? <button className={styles.sampleButton} type="button" onClick={openSampleModal}>
+              {selectedFormat.id === "audiobook" ? <FiHeadphones aria-hidden="true" /> : <HiOutlineBookOpen aria-hidden="true" />}
+              {selectedFormat.id === "audiobook" ? "Ouvir amostra" : "Ler amostra"}
+            </button> : null}
           </ProductInfoCard>
           </div>
         )}

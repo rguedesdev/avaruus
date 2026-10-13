@@ -12,7 +12,7 @@ interface IMedia {
   height: number;
   purpose: "USER_AVATAR" | "SELLER_AVATAR" | "PRODUCT_IMAGE" | "PRODUCT_VIDEO";
   status: "READY";
-  resourceType: "USER" | "SELLER_SETTINGS" | "PRODUCT" | null;
+  resourceType: "USER" | "SELLER_SETTINGS" | "PRODUCT" | "CATALOG_PRODUCT" | null;
   resourceID: Types.ObjectId | null;
   createdAt: Date;
   updatedAt: Date;
@@ -31,7 +31,7 @@ const mediaSchema = new Schema<IMedia>(
     height: { type: Number, required: true, min: 1 },
     purpose: { type: String, enum: ["USER_AVATAR", "SELLER_AVATAR", "PRODUCT_IMAGE", "PRODUCT_VIDEO"], required: true },
     status: { type: String, enum: ["READY"], required: true },
-    resourceType: { type: String, enum: ["USER", "SELLER_SETTINGS", "PRODUCT", null], default: null },
+    resourceType: { type: String, enum: ["USER", "SELLER_SETTINGS", "PRODUCT", "CATALOG_PRODUCT", null], default: null },
     resourceID: { type: Schema.Types.ObjectId, default: null, index: true },
   },
   { timestamps: true },

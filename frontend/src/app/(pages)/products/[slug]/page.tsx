@@ -13,8 +13,8 @@ import {
 
 type PublicProductDetails = {
   id: string; title: string; category: string; price: number; images: string[];
-  description: string; gtin: string; variations: Array<{ title: string; options: string[] }>;
-  bookDetails: string | null; shippingMethod: string; storeSlug: string; storeName: string;
+  description: string; gtin: string; catalogAVSIN: string | null; videoUrl: string; variations: Array<{ title: string; options: string[] }>;
+  bookDetails: string | null; international: boolean; shippingMethod: string; storeSlug: string; storeName: string;
 };
 
 async function getPublicProduct(id: string): Promise<PublicProductDetails | null> {
@@ -23,7 +23,7 @@ async function getPublicProduct(id: string): Promise<PublicProductDetails | null
     const response = await fetch(endpoint, {
       method: "POST", headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        query: "query PublicProductById($id: ID!) { publicProductById(id: $id) { id title category price images description gtin variations { title options } bookDetails shippingMethod storeSlug storeName } }",
+        query: "query PublicProductById($id: ID!) { publicProductById(id: $id) { id title category price images description gtin catalogAVSIN videoUrl variations { title options } bookDetails international shippingMethod storeSlug storeName } }",
         variables: { id },
       }),
       cache: "no-store",
@@ -66,17 +66,19 @@ function toCatalogProduct(product: PublicProductDetails): Product {
   const specifications: Array<readonly [string, string]> = Object.entries(bookDetails)
     .filter(([key, value]) => key !== "collaborators" && typeof value === "string" && value.trim())
     .map(([key, value]) => [({ author: "Autor", publisher: "Editora", format: "Formato", isbn: "ISBN", language: "Idioma", pages: "Número de páginas", publicationDate: "Data de publicação", series: "Série / volume" } as Record<string, string>)[key] ?? key, key === "publicationDate" ? formatBookPublicationDate(String(value)) : String(value)] as const);
+  if (product.catalogAVSIN) specifications.unshift(["Código do catálogo (AVSIN)", product.catalogAVSIN]);
   const variations = product.variations.map((variation, index) => ({
     id: `variation-${index}`,
     label: variation.title,
     options: variation.options.map((label, optionIndex) => ({ id: `option-${optionIndex}`, label, available: true })),
   }));
   return {
-    slug: product.id, name: product.title, category, price, pixPrice: price,
+    slug: product.id, name: product.title, category, price, pixPrice: price, international: product.international,
+    videoUrl: product.videoUrl,
     installments: "Pagamento à vista", image: product.images[0] ?? "/images/products/placeholder.webp",
     images: product.images, imageStyle: product.category === "BOOK" ? "catalog" : "lifestyle",
     badge: "Novo", conditionLabel: "Novo", soldLabel: "Novo anúncio", rating: "—", reviewCount: 0,
-    sku: product.gtin, seller: product.storeName, sellerRating: "—",
+    sku: product.catalogAVSIN ?? product.gtin, seller: product.storeName, sellerRating: "—",
     fulfilledBy: product.shippingMethod === "MELHOR_ENVIO" ? "Melhor Envio" : product.storeName,
     description: product.description, highlights: [], specifications, variations,
   };
@@ -122,6 +124,7 @@ function toCatalogBook(product: PublicProductDetails): Book {
     audiobook: ["Nome da série", "Livro na coleção", "Duração do título", "Idioma", "Editora", "Data da publicação", "Narrador", "Tamanho do arquivo", "Versão", "Tipo de programa", "ISBN-13"],
   };
   const editionDetails: Array<readonly [string, string]> = technicalFields[formatID].map((label) => [label, values[label] ?? "—"] as const);
+  if (product.catalogAVSIN) editionDetails.unshift(["Código do catálogo (AVSIN)", product.catalogAVSIN]);
   const price = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(product.price);
   return {
     slug: product.id, title: product.title, author: text("author"), series: text("series") || "Livro",
@@ -133,7 +136,7 @@ function toCatalogBook(product: PublicProductDetails): Book {
     formats: [{
       id: formatID, label: formatLabels[formatID], detail: formatLabels[formatID], isbn: isbn13 || (formatID === "paperback" || formatID === "hardcover" ? isbn10 : ""),
       digital: formatID === "ebook" || formatID === "audiobook", editionDetails,
-      offers: [{ id: "seller", seller: product.storeName, sellerRating: "—", fulfilledBy: product.shippingMethod === "MELHOR_ENVIO" ? "Melhor Envio" : product.storeName, price, installments: "Pagamento à vista", availability: "Consulte o prazo de entrega" }],
+      offers: [{ id: "seller", seller: product.storeName, sellerRating: "—", fulfilledBy: product.shippingMethod === "MELHOR_ENVIO" ? "Melhor Envio" : product.storeName, price, installments: "Pagamento à vista", availability: "Consulte o prazo de entrega", international: product.international }],
     }],
   };
 }

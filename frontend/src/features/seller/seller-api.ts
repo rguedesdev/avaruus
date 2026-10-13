@@ -33,7 +33,7 @@ export type SellerSettings = {
   stockNotifications: boolean;
   vacationMode: boolean;
 };
-export type SellerProduct = { id: string; title: string; gtin: string; category: string; description: string; price: number; images: string[]; imageIDs: string[]; videoUrl: string; videoID: string | null; variations: Array<{ title: string; options: string[]; imageIDs: string[]; imageUrls: string[] }>; bookDetails: string | null; shippingMethod: string };
+export type SellerProduct = { id: string; title: string; gtin: string; category: string; description: string; price: number; images: string[]; imageIDs: string[]; videoUrl: string; videoID: string | null; variations: Array<{ title: string; options: string[]; imageIDs: string[]; imageUrls: string[] }>; bookDetails: string | null; catalogAVSIN: string | null; international: boolean; shippingMethod: string };
 export type UploadedMedia = { id: string; url: string };
 type SellerSettingsInput = Omit<SellerSettings, "photoUrl" | "slug">;
 
@@ -108,21 +108,27 @@ async function uploadProductVideo(file: File): Promise<UploadedMedia> {
   return payload.media;
 }
 async function getSellerProducts() {
-  const data = await graphQLRequest<{ myProducts: SellerProduct[] }, Record<string, never>>(`query MyProducts { myProducts { id title gtin category description price images imageIDs videoUrl videoID variations { title options imageIDs imageUrls } bookDetails shippingMethod } }`, {}, token());
+  const data = await graphQLRequest<{ myProducts: SellerProduct[] }, Record<string, never>>(`query MyProducts { myProducts { id title gtin category description price images imageIDs videoUrl videoID variations { title options imageIDs imageUrls } bookDetails catalogAVSIN international shippingMethod } }`, {}, token());
   return data.myProducts;
 }
-async function createSellerProduct(product: { title: string; gtin: string; category: string; description: string; price: number; imageIDs: string[]; videoID: string | null; variations: Array<{ title: string; options: string[]; imageIDs: string[] }>; bookDetails: string | null; shippingMethod: string }) {
-  const data = await graphQLRequest<{ createProduct: SellerProduct }, { data: typeof product }>(`mutation CreateProduct($data: SellerProductInput!) { createProduct(data: $data) { id title gtin category description price images imageIDs videoUrl videoID variations { title options imageIDs imageUrls } bookDetails shippingMethod } }`, { data: product }, token());
+async function findProductCatalogMatches(search: string) {
+  const data = await graphQLRequest<{ productCatalogSearch: Array<{ id: string; avsin: string; title: string; gtin: string; category: string; description: string; image: string; bookDetails: string | null }> }, { search: string }>(
+    `query ProductCatalogSearch($search: String!) { productCatalogSearch(search: $search) { id avsin title gtin category description image bookDetails } }`, { search }, token(),
+  );
+  return data.productCatalogSearch;
+}
+async function createSellerProduct(product: { title: string; gtin: string; catalogProductID: string | null; category: string; description: string; price: number; imageIDs: string[]; videoID: string | null; variations: Array<{ title: string; options: string[]; imageIDs: string[] }>; bookDetails: string | null; international: boolean; shippingMethod: string }) {
+  const data = await graphQLRequest<{ createProduct: SellerProduct }, { data: typeof product }>(`mutation CreateProduct($data: SellerProductInput!) { createProduct(data: $data) { id title gtin category description price images imageIDs videoUrl videoID variations { title options imageIDs imageUrls } bookDetails catalogAVSIN international shippingMethod } }`, { data: product }, token());
   return data.createProduct;
 }
 
-async function updateSellerProduct(id: string, product: { title: string; gtin: string; category: string; description: string; price: number; imageIDs: string[]; videoID: string | null; variations: SellerProduct["variations"]; bookDetails: string | null; shippingMethod: string }) {
+async function updateSellerProduct(id: string, product: { title: string; gtin: string; category: string; description: string; price: number; imageIDs: string[]; videoID: string | null; variations: SellerProduct["variations"]; bookDetails: string | null; international: boolean; shippingMethod: string }) {
   const dataToSend = { ...product, variations: product.variations.map(({ title, options, imageIDs }) => ({ title, options, imageIDs })) };
   const data = await graphQLRequest<{ updateProduct: SellerProduct }, { id: string; data: typeof dataToSend }>(
-    `mutation UpdateProduct($id: ID!, $data: SellerProductUpdateInput!) { updateProduct(id: $id, data: $data) { id title gtin category description price images imageIDs videoUrl videoID variations { title options imageIDs imageUrls } bookDetails shippingMethod } }`,
+    `mutation UpdateProduct($id: ID!, $data: SellerProductUpdateInput!) { updateProduct(id: $id, data: $data) { id title gtin category description price images imageIDs videoUrl videoID variations { title options imageIDs imageUrls } bookDetails catalogAVSIN international shippingMethod } }`,
     { id, data: dataToSend }, token(),
   );
   return data.updateProduct;
 }
 
-export { createSellerProduct, getSellerProducts, getSellerSettings, saveSellerSettings, updateSellerProduct, uploadProductImage, uploadProductVideo, uploadSellerImage };
+export { createSellerProduct, findProductCatalogMatches, getSellerProducts, getSellerSettings, saveSellerSettings, updateSellerProduct, uploadProductImage, uploadProductVideo, uploadSellerImage };

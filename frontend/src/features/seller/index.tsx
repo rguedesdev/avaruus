@@ -62,7 +62,7 @@ function sameAddresses(expected: SellerAddress[], actual: SellerAddress[]) {
 function SellerCenter() {
   const router = useRouter();
   const params = useSearchParams();
-  const { status, user } = useAuth();
+  const { status, user, refreshUser } = useAuth();
   const [settings, setSettings] = useState(defaultSettings);
   const [saved, setSaved] = useState(false);
   const [saveError, setSaveError] = useState("");
@@ -121,6 +121,7 @@ function SellerCenter() {
     setSaved(false); setSaveError(""); setSaving(true);
     try {
       await saveSellerSettings(settings);
+      await refreshUser();
       const confirmed = await getSellerSettings();
       setSettings(confirmed);
       if (!sameAddresses(settings.sellerAddresses, confirmed.sellerAddresses)) {
@@ -263,12 +264,12 @@ function SellerCenter() {
         </section> : view === "products" ? <section className={styles.managementPanel}>
           <header className={styles.productsHeader}><div><small>PRODUTOS</small><p>Gerencie os anúncios e acompanhe os produtos cadastrados.</p></div><div className={styles.productHeaderActions}><div className={styles.productViewToggle} role="group" aria-label="Exibição dos produtos"><button type="button" className={productLayout === "grid" ? styles.viewSelected : undefined} aria-label="Cards grandes" aria-pressed={productLayout === "grid"} onClick={() => setProductLayout("grid")}><FiGrid /></button><button type="button" className={productLayout === "list" ? styles.viewSelected : undefined} aria-label="Cards compactos em linha" aria-pressed={productLayout === "list"} onClick={() => setProductLayout("list")}><FiList /></button></div><Link className={styles.createProduct} href="/seller?view=new-product"><FiPlus /> Cadastrar produto</Link></div></header>
           <div className={`${styles.demoProducts} ${productLayout === "list" ? styles.demoProductsList : ""}`}>
-            {savedProducts.map((product) => <Link className={styles.demoProductCard} href={`/seller?view=edit-product&id=${encodeURIComponent(product.id)}`} key={product.id} aria-label={`Editar ${product.title}`}><div className={styles.demoProductImage}>{product.images[0] ? <img src={product.images[0]} alt={product.title} /> : null}</div><div className={styles.demoProductInfo}><h2>{product.title}</h2><small>{categoriesLabel(product.category)}</small><strong>R$ {product.price.toFixed(2).replace(".", ",")}</strong></div></Link>)}
+            {savedProducts.map((product) => <Link className={styles.demoProductCard} href={`/seller?view=edit-product&id=${encodeURIComponent(product.id)}`} key={product.id} aria-label={`Editar ${product.title}`}><div className={styles.demoProductImage}>{product.images[0] ? <img src={product.images[0]} alt={product.title} /> : null}</div><div className={styles.demoProductInfo}><h2>{product.title}</h2><small>{product.catalogAVSIN ? `Catálogo · ${product.catalogAVSIN}` : categoriesLabel(product.category)}</small><strong>R$ {product.price.toFixed(2).replace(".", ",")}</strong></div></Link>)}
             {!savedProducts.length ? <div className={styles.emptyManagement}><FiTag /><h2>Nenhum produto cadastrado</h2><p>Seus anúncios aparecerão aqui.</p></div> : null}
           </div>
         </section> : view === "new-product" ? <section className={styles.managementPanel}>
           <header><div><small>PRODUTOS</small><h1>Cadastrar produto</h1><p>Inclua um novo item no catálogo da sua loja.</p></div></header>
-          <ProductCreateForm settings={settings} onCreated={(product) => { setSavedProducts((current) => [product, ...current]); setProductToast("Produto cadastrado com sucesso."); }} />
+          <ProductCreateForm settings={settings} onCreated={(product) => { setSavedProducts((current) => [product, ...current]); setProductToast(product.catalogAVSIN ? `Produto vinculado ao catálogo com AVSIN ${product.catalogAVSIN}.` : "Produto cadastrado com sucesso."); }} />
         </section> : view === "overview" ? <>
           {loadError ? <p className={styles.formError} role="alert">{loadError}</p> : null}
           <section className={styles.workArea} aria-labelledby="work-area-title">

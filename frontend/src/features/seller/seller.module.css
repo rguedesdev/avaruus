@@ -128,6 +128,23 @@
 .purposeChoices label { display: inline-flex; align-items: center; gap: 5px; font-size: .72rem; }
 .purposeChoices input, .hoursRow input[type="checkbox"] { accent-color: var(--color-charcoal); }
 .formError { margin-top: 12px; color: #b42318; font-size: .72rem; }
+.catalogCheck { margin: 8px 0; color: var(--color-text-muted); font-size: .72rem; }
+.catalogMatches { margin: 8px 0 16px; padding: 14px; border: 2px solid var(--color-charcoal-soft); border-radius: 10px; background: var(--color-surface); color: var(--color-charcoal); box-shadow: 0 4px 14px var(--color-charcoal-08); font-size: .76rem; }
+.catalogMatches > p { margin: 5px 0 9px; color: var(--color-text-muted); }
+.catalogCoverPreview { display: flex; flex-direction: column; align-items: flex-start; gap: 9px; margin: 0 0 16px; color: var(--color-charcoal); font-size: .76rem; }
+.catalogCoverPreview img { width: min(220px, 100%); height: 220px; border: 1px solid var(--color-border-light); border-radius: 10px; background: var(--color-surface-muted); object-fit: contain; }
+.catalogCoverPreview > span { color: var(--color-text-muted); }
+.catalogMatches ul { margin: 0 0 10px; padding: 0; list-style: none; }
+.catalogMatches li { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 7px 0; border-bottom: 1px solid var(--color-border-light); }
+.catalogMatches li small, .catalogMatches > small { color: var(--color-text-muted); }
+.catalogMatchImage, .catalogMatchImagePlaceholder { width: 56px; height: 56px; flex: 0 0 56px; border: 1px solid var(--color-border-light); border-radius: 7px; background: var(--color-surface-muted); object-fit: contain; }
+.catalogMatchImagePlaceholder { color: var(--color-text-muted); display: grid; place-items: center; font-size: .55rem; text-align: center; }
+.catalogMatchInfo { min-width: 0; flex: 1; display: flex; flex-direction: column; gap: 3px; }
+.catalogMatchInfo b { overflow: hidden; text-overflow: ellipsis; }
+.catalogMatches li > button { min-height: 34px; flex: 0 0 auto; padding: 0 12px; border: 0; border-radius: 7px; background: var(--color-charcoal); color: var(--color-white); font-size: .72rem; font-weight: 750; cursor: pointer; transition: background-color .16s ease; }
+.catalogMatches li > button:hover { background: var(--color-charcoal-soft); }
+.catalogNewButton { min-height: 34px; margin-top: 10px; padding: 0 12px; border: 1px solid var(--color-border); border-radius: 7px; background: var(--color-surface); color: var(--color-charcoal); font-size: .72rem; font-weight: 700; cursor: pointer; transition: background-color .16s ease, border-color .16s ease, color .16s ease; }
+.catalogNewButton:hover { border-color: var(--color-charcoal); background: var(--color-surface-muted); color: var(--color-charcoal-deep); }
 .hoursTable { margin-top: 20px; border: 1px solid var(--color-border-light); border-radius: 10px; overflow: hidden; }
 .hoursHeader, .hoursRow { display: grid; grid-template-columns: minmax(100px, 1.2fr) repeat(2, minmax(95px, .8fr)) minmax(105px, .8fr); align-items: center; gap: 12px; }
 .hoursHeader { padding: 12px 14px; background: var(--color-surface-muted); color: var(--color-text-muted); font-size: .67rem; font-weight: 700; }
@@ -208,6 +225,8 @@
 .shippingChoices legend { padding: 0 5px; font-size: .76rem; font-weight: 700; }
 .shippingChoices label { display: flex; align-items: center; gap: 7px; font-size: .75rem; }
 .shippingChoices input { accent-color: var(--color-charcoal); }
+.internationalChoice { min-height: 46px; padding: 12px 14px; border: 1px solid var(--color-border-light); border-radius: 9px; background: var(--color-surface); color: var(--color-charcoal); display: flex; align-items: center; gap: 9px; font-size: .76rem; font-weight: 650; cursor: pointer; }
+.productCreateForm .internationalChoice input[type="checkbox"], .internationalChoice input[type="checkbox"] { width: 16px; height: 16px; min-height: 0; margin: 0; padding: 0; border-radius: 4px; flex: 0 0 auto; accent-color: var(--color-accent); }
 .mediaSection, .variationSection { display: flex; flex-direction: column; gap: 12px; }
 .mediaHeading { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .mediaHeading > div { display: flex; flex-direction: column; gap: 4px; }

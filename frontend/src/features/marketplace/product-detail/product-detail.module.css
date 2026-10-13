@@ -1,5 +1,5 @@
 .galleryStage { min-width: 0; }
-.productSummary { min-width: 0; width: 100%; }
+.productSummary { min-width: 0; width: calc(100% + clamp(24px, 4vw, 56px)); }
 .purchasePanel { min-width: 0; width: 88%; margin-left: auto; padding-top: 4px; }
 .productMeta { color: var(--color-text-muted); display: flex; align-items: center; gap: 9px; font-size: .9rem; font-weight: 400; }
 .productMeta i { width: 1px; height: 13px; background: var(--color-border); }
@@ -92,3 +92,4 @@
   .specifications { grid-template-columns: 1fr; }
   .specifications > div { grid-template-columns: 1fr; gap: 4px; }
 }
+.catalogVideo { width: 100%; max-height: 480px; margin-top: 14px; border: 1px solid var(--color-border-light); border-radius: 14px; background: #000; object-fit: contain; }

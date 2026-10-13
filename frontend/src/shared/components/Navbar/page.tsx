@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/features/auth/auth-context";
 import logo from "./avaruus.png";
 import styles from "./navbar.module.css";
-import { FiChevronDown, FiLogOut, FiMapPin, FiSearch, FiUser } from "react-icons/fi";
+import { FiChevronDown, FiLogOut, FiMapPin, FiSearch, FiShield, FiUser } from "react-icons/fi";
 import { FaRegBell } from "react-icons/fa6";
 import { LiaShoppingCartSolid } from "react-icons/lia";
 import { LuSettings } from "react-icons/lu";
@@ -97,6 +97,7 @@ function Navbar() {
                       <Link href="/profile?view=favorites" onClick={() => setAccountMenuOpen(false)}><span className={styles.menuIcon}><MdFavoriteBorder className={styles.favoriteIcon} aria-hidden="true" /></span><span><strong>Favoritos</strong><small>Produtos que você salvou</small></span></Link>
                       <Link href="/profile?view=purchases" onClick={() => setAccountMenuOpen(false)}><span className={styles.menuIcon}><RiShoppingBag4Line className={styles.purchaseIcon} aria-hidden="true" /></span><span><strong>Compras</strong><small>Pedidos e histórico</small></span></Link>
                       <Link href="/seller" onClick={() => setAccountMenuOpen(false)}><span className={styles.menuIcon}><RiStore3Line className={styles.sellerIcon} aria-hidden="true" /></span><span><strong>Central do vendedor</strong><small>Loja, anúncios e vendas</small></span></Link>
+                      {user.accountType === "ADMIN" ? <Link href="/admin" onClick={() => setAccountMenuOpen(false)}><span className={styles.menuIcon}><FiShield aria-hidden="true" /></span><span><strong>Administração do catálogo</strong><small>Revisar e gerenciar itens</small></span></Link> : null}
                       <Link href="/profile?view=settings" onClick={() => setAccountMenuOpen(false)}><span className={styles.menuIcon}><LuSettings className={styles.settingsIcon} aria-hidden="true" /></span><span><strong>Configurações</strong><small>Preferências da conta</small></span></Link>
                     </nav>
                     <button className={styles.signOutButton} type="button" onClick={handleSignOut}><FiLogOut aria-hidden="true" />Sair</button>

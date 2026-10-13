@@ -11,7 +11,7 @@ const environmentSchema = z.object({
   JWT_SECRET: z.string().min(32, "JWT_SECRET deve ter pelo menos 32 caracteres."),
   DATA_ENCRYPTION_KEY: z.string().min(32, "DATA_ENCRYPTION_KEY deve ter pelo menos 32 caracteres."),
   JWT_EXPIRES_IN: z.string().trim().min(1).default("7d"),
-  STORAGE_LOCAL_DIR: z.string().trim().min(1).default(".uploads"),
+  STORAGE_LOCAL_DIR: z.string().trim().min(1).default("./src/uploads"),
 });
 
 const parsedEnvironment = environmentSchema.safeParse(process.env);

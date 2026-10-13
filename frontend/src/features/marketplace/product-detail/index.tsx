@@ -114,6 +114,7 @@ export function ProductDetails({ product }: ProductDetailsProps) {
           } : undefined}
           variant={product.imageStyle}
         />
+        {product.videoUrl ? <video className={styles.catalogVideo} src={product.videoUrl} controls playsInline preload="metadata" aria-label={`Vídeo de ${product.name}`} /> : null}
         </div>
       )}
       summary={(

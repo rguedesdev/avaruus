@@ -2,6 +2,7 @@ import { z } from "zod";
 
 import { graphQLError } from "../../errors.js";
 import MediaService, { mediaUrl } from "../media/service.js";
+import { UserModel } from "../user/model.js";
 import { SellerSettingsModel } from "./model.js";
 
 function isValidTaxDocument(value: string) {
@@ -138,6 +139,7 @@ class SellerService {
       await MediaService.detachSellerAvatar(previousPhotoID, id, settings._id.toString());
     }
     const persistedSettings = await SellerSettingsModel.findOne({ userID: id }).lean();
+    await UserModel.updateOne({ _id: id, accountType: "CUSTOMER" }, { $set: { accountType: "SELLER" } });
     return normalizedSettings(persistedSettings);
   }
 
